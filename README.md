@@ -13,8 +13,8 @@ where value is grabbed from the current value of the slider.
 
 Clone the repo and inside the directory run: 
 
-java slider.java
+java solve.java
 
-*Tips: This can be useful as a panel plugin that could run 'java slider.java' when the plugin is clicked on. 
+*Tips: This can be useful as a panel plugin that could run 'java solve.java' when the plugin is clicked on. 
 See https://github.com/levimake/xfce4-genmon-panel-scripts 
-An example (xfce-only) would be adding one of the Genmon Monitor plugins to your XFCE panel and having the plugin run bash /home/$your-name/your-script.sh and inside this script.sh you would have an on-click command: java slider.java 
+An example (xfce-only) would be adding one of the Genmon Monitor plugins to your XFCE panel and having the plugin run bash /home/$your-name/your-script.sh and inside this script.sh you would have an on-click command: java solve.java 
