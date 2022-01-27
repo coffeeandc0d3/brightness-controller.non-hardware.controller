@@ -11,10 +11,10 @@ where value is grabbed from the current value of the slider.
 
 [To Run]
 
-mkdir build
-cd build
-git clone https://github.com/coffeeandc0d3/brightness-controller.non-hardware.controller
+Clone the repo and inside the directory run: 
 
 java slider.java
 
 *Tips: This can be useful as a panel plugin that could run 'java slider.java' when the plugin is clicked on. 
+See https://github.com/levimake/xfce4-genmon-panel-scripts 
+An example (xfce-only) would be adding one of the Genmon Monitor plugins to your XFCE panel and having the plugin run bash /home/$your-name/your-script.sh and inside this script.sh you would have an on-click command: java slider.java 
