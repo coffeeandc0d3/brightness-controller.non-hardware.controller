@@ -4,3 +4,6 @@ Haven't tested further to confirm support for other Lenovo Legions unfortunately
 Other than the small GUI display for the brightness controller, the only thing this script does is invoke:
      xrandr --output 0x1c1 --brightness *value* 
 where value is grabbed from the current value of the slider. 
+
+
+https://user-images.githubusercontent.com/31811490/151270127-154aafec-ce02-4ab7-b976-bb5291c76bb9.png
