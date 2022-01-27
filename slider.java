@@ -9,8 +9,7 @@ import javax.swing.*;
 import java.io.PrintStream;
 import java.io.File;
 
-
-//File I/O Imports
+//Exception Handling
 import java.io.IOException;
 
 
@@ -52,7 +51,7 @@ class solve extends JFrame implements ChangeListener
 		sliderButton.setMajorTickSpacing(50);
 		sliderButton.setMinorTickSpacing(5);
 
-		// setChangeListener *that's what it's called :) *  
+		// setChangeListener  
 		sliderButton.addChangeListener(s);
 
 		// set orientation of slider
@@ -68,11 +67,11 @@ class solve extends JFrame implements ChangeListener
 		frame.add(p);
 
 		// set the text of label
-		label.setText("value of Slider is =" + sliderButton.getValue());
+		label.setText("Brightness: " + sliderButton.getValue() + "% ");
 
 		// set the size of frame
 		frame.setSize(300, 150);
-        frame.show();
+        	frame.show();
 
 // 		In case of bugs/memory leaks 
 //		System.exit();
@@ -83,16 +82,16 @@ class solve extends JFrame implements ChangeListener
 	{
 		float currentLevel = ((float)sliderButton.getValue() / 100);
 
-		label.setText("value of Slide r is =" + currentLevel);
+		label.setText("Brightness: " + currentLevel + "% ");
         try
-        {
-            Process p = Runtime.getRuntime().exec(new String[]{"xrandr", "--output", "0x1c1", "--brightness", Float.toString(currentLevel)});
-
+        { 
+          Process p = Runtime.getRuntime().exec(new String[]{"xrandr", "--output", "0x1c1", "--brightness", Float.toString(currentLevel)});
         }
-        catch (IOException e2) 
-        {
+          catch (IOException e2) 
+          {
             e2.printStackTrace();
-        }
+          }
+    
     }
 
 }
