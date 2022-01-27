@@ -71,7 +71,7 @@ class solve extends JFrame implements ChangeListener
 		label.setText("Brightness: " + sliderButton.getValue() + "% ");
 
 		// set the size of frame
-        frame.show();
+        	frame.show();
 		frame.setSize(300, 150);
 
 // 		In case of bugs/memory leaks 
