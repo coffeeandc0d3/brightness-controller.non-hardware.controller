@@ -7,7 +7,7 @@ Other than the small GUI display for the brightness controller, the only thing t
 where value is grabbed from the current value of the slider. 
 
 
-<img src="https://user-images.githubusercontent.com/31811490/151270330-03cec57b-3452-4fd3-b78e-9cc9cab0656f.png">
+<img src="https://user-images.githubusercontent.com/31811490/151293547-6f05e007-24ff-4ee3-949c-47ce46615efb.png">
 
 [To Run]
 
