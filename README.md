@@ -8,6 +8,7 @@ where value is grabbed from the current value of the slider.
 *Note* The above command uses a specific display identifier (0x1c1), but this likely won't be yours. To find your identifier launch a terminal and type: 
 
 xrandr | grep -w connected  | awk -F'[ ]' '{print $1}'
+
 Example output:
 DP-4
 
