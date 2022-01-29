@@ -27,4 +27,4 @@ java /home/$your-username/solve.java `xrandr --verbose | awk '/ connected /{}/Br
 
 *Tips: This can be useful as a panel plugin that could run the above command when the plugin is clicked on. 
 See https://github.com/levimake/xfce4-genmon-panel-scripts 
-An example (xfce-only) would be adding one of the Genmon Monitor plugins to your XFCE panel and having the plugin run bash /home/$your-name/your-script.sh and inside this script.sh you would have an on-click command: java solve.java 
+An example (xfce-only) would be adding one of the Genmon Monitor plugins to your XFCE panel and having the plugin run bash /home/$your-name/your-script.sh and inside this script.sh you would have an on-click command: java solve.java `arg0` `arg1`
