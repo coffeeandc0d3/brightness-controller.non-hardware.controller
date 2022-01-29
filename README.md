@@ -20,7 +20,7 @@ Whenever you launch the application, pass the above command as an argument (not 
 
 Clone the repo and inside the directory run: 
 
-java solve.java
+java /home/$your-user-name/solve.java `xrandr --verbose | awk '/ connected /{}/Brightness:/{print $2}'` `xrandr | grep -w connected  | awk -F'[ ]' '{print $1}'`
 
 *Tips: This can be useful as a panel plugin that could run 'java solve.java' when the plugin is clicked on. 
 See https://github.com/levimake/xfce4-genmon-panel-scripts 
