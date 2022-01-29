@@ -9,10 +9,13 @@ where value is grabbed from the current value of the slider.
 
 xrandr | grep -w connected  | awk -F'[ ]' '{print $1}'
 
-Example output:
+Example Output:
 DP-4
 
-Whenever you launch the application, pass the above command as an argument (not the actual returned output).
+For the above command, you'll need to enclose it with the (`) character. This is the back-tick, not the apostrophe. 
+
+Exanple Input of 1st Argument: 
+` xrandr | grep -w connected  | awk -F'[ ]' '{print $1}' `
 
 <img src="https://user-images.githubusercontent.com/31811490/151293547-6f05e007-24ff-4ee3-949c-47ce46615efb.png">
 
@@ -20,8 +23,8 @@ Whenever you launch the application, pass the above command as an argument (not 
 
 Clone the repo and inside the directory run: 
 
-java /home/$your-user-name/solve.java `xrandr --verbose | awk '/ connected /{}/Brightness:/{print $2}'` `xrandr | grep -w connected  | awk -F'[ ]' '{print $1}'`
+java /home/$your-username/solve.java `xrandr --verbose | awk '/ connected /{}/Brightness:/{print $2}'` `xrandr | grep -w connected | awk -F'[ ]' '{print $1}'` 
 
-*Tips: This can be useful as a panel plugin that could run 'java solve.java' when the plugin is clicked on. 
+*Tips: This can be useful as a panel plugin that could run the above command when the plugin is clicked on. 
 See https://github.com/levimake/xfce4-genmon-panel-scripts 
 An example (xfce-only) would be adding one of the Genmon Monitor plugins to your XFCE panel and having the plugin run bash /home/$your-name/your-script.sh and inside this script.sh you would have an on-click command: java solve.java 
