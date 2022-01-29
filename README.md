@@ -5,6 +5,13 @@ Other than the small GUI display for the brightness controller, the only thing t
      xrandr --output 0x1c1 --brightness *value* 
 where value is grabbed from the current value of the slider. 
 
+*Note* The above command uses a specific display identifier (0x1c1), but this likely won't be yours. To find your identifier launch a terminal and type: 
+
+xrandr | grep -w connected  | awk -F'[ ]' '{print $1}'
+Example output:
+DP-4
+
+Whenever you launch the application, pass the above command as an argument (not the actual returned output).
 
 <img src="https://user-images.githubusercontent.com/31811490/151293547-6f05e007-24ff-4ee3-949c-47ce46615efb.png">
 
