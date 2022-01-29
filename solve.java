@@ -1,22 +1,19 @@
-// java Program to create a vertical slider with
-// min and max value and major and minor ticks
-// painted and set the font of the slider.
+// java Program to create a horizontal brightness slider
 
 //GUI Imports
 import javax.swing.event.*;
 import java.awt.*;
 import javax.swing.*;
-import java.io.PrintStream;
-import java.io.File;
-
-
-//File I/O Imports
 import java.io.IOException;
+import java.io.*;  
 
 
-class solve extends JFrame implements ChangeListener 
+// Could go for a gui with checkbo	xes for each identifier found 
+// even disconnected ones 
+public class solve extends JFrame implements ChangeListener 
 {
-	// frame
+	static JRadioButton[] buttonDisplays;
+	static String chosenDisplay;
 	static JFrame frame;
 
 	// slider
@@ -27,55 +24,83 @@ class solve extends JFrame implements ChangeListener
 
 	// main class
 	public static void main(String[] args) throws IOException
-	{
-		// create a new frame
-		frame = new JFrame("Set Current Brightness");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	{	
+			String linuxCommandOutput = args[0];
+			float currentBrightness = Float.parseFloat(linuxCommandOutput);	
 
-		// create a object
-		solve s = new solve();
-		// create label  
-		label = new JLabel();
+			System.out.println("\nCurrent brightness: " + currentBrightness);
+	
+			// creat e a new frame
+			frame = new JFrame("Set Current Brightness");
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+			// create a object 
+			solve s = new solve();
+			// create label  
+			label = new JLabel();
+	
+			// create a panel
+			JPanel p = new JPanel();
 
-		// create a panel
-		JPanel p = new JPanel();
+// 			All this does is allow only 1 radio-button selection
+			ButtonGroup group = new ButtonGroup();
+	 
+			int count = 1;
+			buttonDisplays = new JRadioButton[4];
+			for (int i = 0; i < 4; i++)
+			{
+				buttonDisplays[i] = new JRadioButton();
 
-		// create a slider
-		sliderButton = new JSlider(0, 100, 100);
+//				This removes need for array of DP:(1-4)
+				buttonDisplays[i].setText("DP-" + count); 
+				buttonDisplays[i].setBounds(i+10,i+20,20,20);
+				buttonDisplays[i].setVisible(true);
+				
+				p.add(buttonDisplays[i]);
+				group.add(buttonDisplays[i]);
+				++count;
+			}	
 
-		// paint the ticks and tracks
-		sliderButton.setPaintTrack(true);
-		sliderButton.setPaintTicks(true);
-		sliderButton.setPaintLabels(true);
+			// create a slider
+			sliderButton = new JSlider(0, 100, (int)(currentBrightness * 100));
+			
+			// paint the ticks and tracks
+			sliderButton.setPaintTrack(true);
+			sliderButton.setPaintTicks(true);
+			sliderButton.setPaintLabels(true);
+	
+			// set spacing
+			sliderButton.setMajorTickSpacing(50);
+			sliderButton.setMinorTickSpacing(5);
+	
+			// setChangeListener   
+			sliderButton.addChangeListener(s);
+	
+			// set orientation of slider
+			sliderButton.setOrientation(SwingConstants.HORIZONTAL);
+	
+			// set Font for the slider
+			sliderButton.setFont(new Font("Ubuntu Bold", Font.BOLD, 20));
+	
+			// add slider to panel
+			p.add(sliderButton);
+			p.add(label);
+	
+			frame.add(p);
+	
+			// Set the text of label on slider 
+			label.setText("Brightness: " + sliderButton.getValue() + "% ");
+	
+			// set the size of slider menu
+			frame.setSize(300, 200);
+			frame.setVisible(true);	
 
-		// set spacing
-		sliderButton.setMajorTickSpacing(50);
-		sliderButton.setMinorTickSpacing(5);
-
-		// setChangeListener   
-		sliderButton.addChangeListener(s);
-
-		// set orientation of slider
-		sliderButton.setOrientation(SwingConstants.HORIZONTAL);
-
-		// set Font for the slider
-		sliderButton.setFont(new Font("Monospace Bold", Font.BOLD, 20));
-
-		// add slider to panel
-		p.add(sliderButton);
-		p.add(label);
-
-		frame.add(p);
-
-		// set the text of label
-		label.setText("Brightness: " + sliderButton.getValue() + "% ");
-
-		// set the size of frame
-        	frame.show();
-		frame.setSize(300, 150);
-
-// 		In case of bugs/memory leaks 
-//		System.exit();
+			while (true)
+			{
+				JRadioButton test = getChosenDisplay(buttonDisplays);
+				chosenDisplay = test.getText();
+				System.out.println("Selected: " + chosenDisplay);
+			}
 	}
 
 	// if JSlider value is changed
@@ -86,12 +111,28 @@ class solve extends JFrame implements ChangeListener
 		label.setText("Brightness: " + currentLevel + "% ");
         try
         { 
-          Process p = Runtime.getRuntime().exec(new String[]{"xrandr", "--output", "0x1c1", "--brightness", Float.toString(currentLevel)});
+          Process p = Runtime.getRuntime().exec(new String[]{"xrandr", 
+		  	"--output", chosenDisplay, "--brightness", Float.toString(currentLevel)});
         }
           catch (IOException e2) 
           {
             e2.printStackTrace();
           }
     }
+
+    public static JRadioButton getChosenDisplay(JRadioButton[] buttonsOther) 
+	{
+		for (JRadioButton b : buttonsOther)
+		{
+			if (b.isSelected())
+			{
+				System.out.println("Selected: " + b.getText());
+				return b;		
+			}
+		}
+
+//		Returns the last display by default
+		return buttonDisplays[3];
+	}
 
 }
