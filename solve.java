@@ -1,33 +1,48 @@
-// java Program to create a horizontal brightness slider
+// [Description] 
+// Suboptimal java gui to change brightness levels through software rendering
+//Useful for Linux devices that are too new for compatbility.
+//This would not be a good long-term solution as this doesn't use the hardware controller
+// to adjust the system brightness. 
 
-//GUI Imports
 import javax.swing.event.*;
 import java.awt.*;
 import javax.swing.*;
 import java.io.IOException;
 import java.io.*;  
 
+/*  This should determine your display identifier: 
+	xrandr | grep -w connected  | awk -F'[ ]' '{print $1}'
+	
+Pass it as a parameter when you run 'java solve.java' `<Arguments-Here>`
+This gives the progaram the  ID of your connected display.
+*Note* the above arguments are enclosed with back-ticks(`) - not the apostrophe. 
+Alternatively there's radio buttons for all display ID types
+This includes types not on your system. 
+Overall it's meant to provide a reliable trial & error approach... 
+...at the cost of speed, optimization, and everything good. 
+*/
 
-// Could go for a gui with checkbo	xes for each identifier found 
-// even disconnected ones 
 public class solve extends JFrame implements ChangeListener 
 {
 	static JRadioButton[] buttonDisplays;
-	static String chosenDisplay;
+	static String ConnectedDisplay, SystemBrightness;
 	static JFrame frame;
 
-	// slider
+//	Slider to adjust brightness
 	static JSlider sliderButton;
 
-	// label
+//	Label to show text of current % set 
 	static JLabel label;
 
 	// main class
 	public static void main(String[] args) throws IOException
 	{	
-			String linuxCommandOutput = args[0];
-			float currentBrightness = Float.parseFloat(linuxCommandOutput);	
+//			Argument 0 is system command to retrieve current brightness level
+			SystemBrightness = args[0];
+//			Argument 1 is system command to retrieve connected display's ID
+			ConnectedDisplay = args[1];
 
+			float currentBrightness = Float.parseFloat(SystemBrightness);	
 			System.out.println("\nCurrent brightness: " + currentBrightness);
 	
 			// creat e a new frame
@@ -42,11 +57,11 @@ public class solve extends JFrame implements ChangeListener
 			// create a panel
 			JPanel p = new JPanel();
 
-// 			All this does is allow only 1 radio-button selection
+// 			All this does is allow 1 radio-button selected at a time
 			ButtonGroup group = new ButtonGroup();
 	 
 			int count = 1;
-			buttonDisplays = new JRadioButton[4];
+			buttonDisplays = new JRadioButton[5];
 			for (int i = 0; i < 4; i++)
 			{
 				buttonDisplays[i] = new JRadioButton();
@@ -61,7 +76,16 @@ public class solve extends JFrame implements ChangeListener
 				++count;
 			}	
 
-			// create a slider
+// 			LVDS Support:
+			buttonDisplays[4] = new JRadioButton();
+			buttonDisplays[4].setText("LVDS-1");
+			buttonDisplays[4].setBounds(30, 200,10,10);
+			buttonDisplays[4].setVisible(true);
+
+			p.add(buttonDisplays[4]);
+			group.add(buttonDisplays[4]);
+
+//			Last param ensures slider starts at current system brightness
 			sliderButton = new JSlider(0, 100, (int)(currentBrightness * 100));
 			
 			// paint the ticks and tracks
@@ -95,15 +119,18 @@ public class solve extends JFrame implements ChangeListener
 			frame.setSize(300, 200);
 			frame.setVisible(true);	
 
+// 			Main event loop to switch all the ID types
 			while (true)
 			{
-				JRadioButton test = getChosenDisplay(buttonDisplays);
-				chosenDisplay = test.getText();
-				System.out.println("Selected: " + chosenDisplay);
+				JRadioButton currentEnabledID = getChosenDisplay(buttonDisplays);
+				ConnectedDisplay = currentEnabledID.getText();
+				System.out.println("Using: " + ConnectedDisplay);
 			}
 	}
 
-	// if JSlider value is changed
+	// Each time slider is changed, will execute a shell command 
+	// to adjust brightness with last parameter being the desired
+	// brightness. This parameter will be equal to value of the slider. 
 	public void stateChanged(ChangeEvent e)
 	{
 		float currentLevel = ((float)sliderButton.getValue() / 100);
@@ -112,14 +139,15 @@ public class solve extends JFrame implements ChangeListener
         try
         { 
           Process p = Runtime.getRuntime().exec(new String[]{"xrandr", 
-		  	"--output", chosenDisplay, "--brightness", Float.toString(currentLevel)});
+		  	"--output", ConnectedDisplay, "--brightness", Float.toString(currentLevel)});
         }
-          catch (IOException e2) 
-          {
-            e2.printStackTrace();
-          }
+           catch (IOException e2) 
+           {
+             e2.printStackTrace();
+           }
     }
 
+//  Retrieves display type user selected
     public static JRadioButton getChosenDisplay(JRadioButton[] buttonsOther) 
 	{
 		for (JRadioButton b : buttonsOther)
