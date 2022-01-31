@@ -12,10 +12,16 @@ xrandr | grep -w connected  | awk -F'[ ]' '{print $1}'
 Example Output:
 DP-4
 
-For the above command, you'll need to enclose it with the (`) character. This is the back-tick, not the apostrophe. 
+Program looks for 2 arguments provided below. *Note* You'll need both parameters with the backtick (`) character, not the apostrophe.
 
-Exanple Input of 1st Argument: 
-` xrandr | grep -w connected  | awk -F'[ ]' '{print $1}' `
+-1st argument gives program your system's current brightness, 
+
+Exanple Input of 1st Argument (enclosed with backticks, but they might not be visible) 
+` xrandr --verbose | awk '/ connected /{}/Brightness:/{print $2} `
+
+2nd Argument gives program your system's connected display identifier
+` xrandr | grep -w connected | awk -F'[ ]' '{print $1}' ` 
+
 
 <img src="https://user-images.githubusercontent.com/31811490/151293547-6f05e007-24ff-4ee3-949c-47ce46615efb.png">
 
