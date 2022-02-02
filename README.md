@@ -27,12 +27,15 @@ Exanple Input of 1st Argument (enclosed with backticks, but they might not be vi
 
 [To Run]
 
-Clone the repo and inside the directory run: 
+Clone the repo and copy the solve.java file to your home directory.
+Type: 
 
-java /home/$your-username/solve.java `xrandr --verbose | awk '/ connected /{}/Brightness:/{print $2}'` `xrandr | grep -w connected | awk -F'[ ]' '{print $1}'` 
+javac solve.java
+
+java solve `xrandr --verbose | awk '/ connected /{}/Brightness:/{print $2}'` `xrandr | grep -w connected | awk -F'[ ]' '{print $1}'` 
 
 *Note* Again the above 2 parameters need to be enclosed with backticks (`), they won't show on Github. 
 
 *Tips: This can be useful as a panel plugin that could run the above command when the plugin is clicked on. 
 See https://github.com/levimake/xfce4-genmon-panel-scripts 
-An example (xfce-only) would be adding one of the Genmon Monitor plugins to your XFCE panel and having the plugin run bash /home/$your-name/your-script.sh and inside this script.sh you would have an on-click command: java solve.java `arg0` `arg1` (with back-ticks (`) enclosing arg0-1) 
+An example (xfce-only) would be adding one of the Genmon Monitor plugins to your XFCE panel and having the plugin run bash /home/$your-name/your-script.sh and inside this script.sh you would have an on-click command: java solve `arg0` `arg1` (with back-ticks (`) enclosing arg0-1) 
