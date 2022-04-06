@@ -28,7 +28,16 @@ Exanple Input of 1st Argument (enclosed with backticks, but they might not be vi
 [To Run]
 
 Clone the repo and copy the solve.java file to your home directory.
-Type: 
+
+Execute the ./run.sh script to run the GUI. 
+
+'sudo chmod u+x run.sh'
+
+'cp run.sh /home/$USER'
+
+'~/run.sh'
+
+But if you prefer, manual steps to execute are below:
 
 javac solve.java
 
