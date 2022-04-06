@@ -12,7 +12,9 @@ xrandr | grep -w connected  | awk -F'[ ]' '{print $1}'
 Example Output:
 DP-4
 
-Program looks for 2 arguments provided below. *Note* You'll need both parameters with the backtick (`) character, not the apostrophe.
+Auto run script will pass the 2 arguments needed for you, but these are them in case you're curious:  
+
+[*Note* You'll need both parameters enclosed with a backtick (`), *not* the apostrophe]
 
 -1st argument gives program your system's current brightness, 
 
@@ -32,7 +34,9 @@ Clone the repo into a ~/build directory.
 Execute the ./run.sh script to run the GUI. 
 
 `sudo chmod u+x run.sh`
+
 (optional) `cp run.sh /home/$USER`
+
 `./run.sh`
 
 if you want to run manually:
@@ -41,7 +45,7 @@ javac solve.java
 
 java solve `xrandr --verbose | awk '/ connected /{}/Brightness:/{print $2}'` `xrandr | grep -w connected | awk -F'[ ]' '{print $1}'` 
 
-*Note* Again the above 2 parameters need to be enclosed with backticks (`), they won't show on Github. 
+*Note* The above 2 parameters need to be enclosed with backticks (`), they won't show on Github. 
 
 *Tips: This can be useful as a panel plugin that could run the above command when the plugin is clicked on. 
 See https://github.com/levimake/xfce4-genmon-panel-scripts 
