@@ -28,17 +28,19 @@ Overall it's meant to provide a reliable trial & error approach...
 
 public class solve extends JFrame implements ChangeListener
 {
-static String ConnectedDisplay, SystemBrightness;
-static JRadioButton[] buttonDisplays;
-static JFrame frame;
+	public static JTextField manualInput;
 
-// Slider to adjust brightness
-static JSlider sliderButton;
+	static String ConnectedDisplay, SystemBrightness;
+	static JRadioButton[] buttonDisplays;
+	static JFrame frame;
 
-// Label to show % set to
-static JLabel label;
+	// Slider to adjust brightness
+	static JSlider sliderButton;
 
-// main class
+	// Label to show % set to
+	static JLabel label;
+
+	// main class
 public static void main(String[] args) throws IOException
 {
 // Argument 0 is system command to retrieve current brightness level
@@ -64,14 +66,13 @@ JPanel p = new JPanel();
 // All this does is allow 1 radio-button selected at a time
 ButtonGroup group = new ButtonGroup();
 
-int count = 1;
+int count = 0;
 // By default supports: DP1-4, LVDS-1, and HDMI-1
 buttonDisplays = new JRadioButton[7];
 for (int i = 0; i < 4; i++)
 {
 buttonDisplays[i] = new JRadioButton();
 
-// This removes need for string[] of DP:(1-4)
 buttonDisplays[i].setText("DP-" + count);
 buttonDisplays[i].setBounds(i+10,i+20,20,20);
 buttonDisplays[i].setVisible(true);
@@ -108,6 +109,7 @@ buttonDisplays[6].setVisible(true);
 p.add(buttonDisplays[6]);
 group.add(buttonDisplays[6]);
 
+buttonDisplays[6].setBounds(30, 200,10,10);
 
 // Last param ensures slider starts at current system brightness
 sliderButton = new JSlider(0, 100, (int)(currentBrightness * 100 ));
@@ -130,57 +132,66 @@ sliderButton.setOrientation(SwingConstants.HORIZONTAL);
 // set Font for the slider
 sliderButton.setFont(new Font("Ubuntu Bold", Font.BOLD, 20));
 
+// Manual input through a textfield: 
+manualInput = new JTextField("");
+manualInput.setBounds(150,200,400,400);
+manualInput.setEditable(true);
+manualInput.setPreferredSize(new Dimension(300,100));
+
+manualInput.setVisible(true);
+p.add(manualInput);
+
+
 // add slider to panel
 p.add(sliderButton);
 p.add(label);
-
 frame.add(p);
 
 // Set the text of label on slider
 label.setText("Brightness: " + sliderButton.getValue() + "% ");
 
 // set the size of slider menu
-frame.setSize(300, 200);
+frame.setSize(2000, 1500);
 frame.setVisible(true);
+	
+
 
 // Main event loop to switch all the ID types
-while (true)
-{
-JRadioButton currentEnabledID = getChosenDisplay(buttonDisplays);
-ConnectedDisplay = currentEnabledID.getText();
-System.out.println("Using: " + ConnectedDisplay);
-}
+while (true){
+	JRadioButton currentEnabledID = getChosenDisplay(buttonDisplays);
+	if (manualInput.getText() != "") { ConnectedDisplay = manualInput.getText(); }
+	else { ConnectedDisplay = currentEnabledID.getText(); }
 }
 
+}
 // Each time slider is changed, will execute a shell command
 // to adjust brightness with last parameter being the desired
 // brightness. This parameter will be equal to value of the slider.
 public void stateChanged(ChangeEvent e)
 {
-float currentLevel = ((float)sliderButton.getValue() / 100);
+	float currentLevel = ((float)sliderButton.getValue() / 100);
+	label.setText("Brightness: " + currentLevel + "% ");
 
-label.setText("Brightness: " + currentLevel + "% ");
-        try
-        {
-          Process p = Runtime.getRuntime().exec(new String[]{"xrandr",
-  "--output", ConnectedDisplay, "--brightness", Float.toString(currentLevel)});
-        }
-           catch (IOException e2)
-           {
-             e2.printStackTrace();
-           }
+	System.out.println("Using: " + ConnectedDisplay);
+
+	try{
+		Process p = Runtime.getRuntime().exec(new String[]{"xrandr",
+			"--output", ConnectedDisplay, "--brightness", Float.toString(currentLevel)});
+	} catch (IOException e2) {
+		e2.printStackTrace();
+	}
     }
 
 //  Returns current display type user selected
     public static JRadioButton getChosenDisplay(JRadioButton[] buttonsOther)
 {
-for (JRadioButton b : buttonsOther)
-{
-if (b.isSelected())
-{
-// System.out.println("Selected: " + b.getText());
-return b;
-}
+	for (JRadioButton b : buttonsOther)
+	{
+		if (b.isSelected())
+		{
+			// System.out.println("Selected: " + b.getText());
+			return b;
+		}
 }
 
 // Returns connected display by default:
