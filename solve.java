@@ -6,6 +6,7 @@
 
 import javax.swing.event.*;
 import java.awt.*;
+import java.awt.Font;
 import javax.swing.*;
 import java.io.IOException;
 import java.io.*;  
@@ -29,7 +30,7 @@ Overall it's meant to provide a reliable trial & error approach...
 public class solve extends JFrame implements ChangeListener
 {
 	public static JTextField manualInput;
-
+	static Font font; 
 	static String ConnectedDisplay, SystemBrightness;
 	static JRadioButton[] buttonDisplays;
 	static JFrame frame;
@@ -62,6 +63,7 @@ label = new JLabel();
 
 // create a panel
 JPanel p = new JPanel();
+p.setBackground(Color.black);
 
 // All this does is allow 1 radio-button selected at a time
 ButtonGroup group = new ButtonGroup();
@@ -138,6 +140,9 @@ manualInput.setBounds(150,200,400,400);
 manualInput.setEditable(true);
 manualInput.setPreferredSize(new Dimension(300,100));
 
+Font font = new Font("Monospace", Font.BOLD, 22);
+manualInput.setFont(font);
+
 manualInput.setVisible(true);
 p.add(manualInput);
 
@@ -145,6 +150,7 @@ p.add(manualInput);
 // add slider to panel
 p.add(sliderButton);
 p.add(label);
+
 frame.add(p);
 
 // Set the text of label on slider
@@ -154,8 +160,6 @@ label.setText("Brightness: " + sliderButton.getValue() + "% ");
 frame.setSize(2000, 1500);
 frame.setVisible(true);
 	
-
-
 // Main event loop to switch all the ID types
 while (true){
 	JRadioButton currentEnabledID = getChosenDisplay(buttonDisplays);
